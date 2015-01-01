@@ -20,15 +20,15 @@
                     ctx = canvas.getContext('2d'),
                     imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height')),
                     pixels = imageData.data,
-                    noise = new WorleyNoise(10),
+                    noise = new WorleyNoise(50),
                     map,
-                    val,
-                    color,
                     base,
                     x,
                     y;
 
-                map = noise.getMap(500);
+                map = noise.getNormalizedMap(500, function (e, m) {
+                    return e(2) - e(1);
+                });
 
                 for (y = 0; y < imageData.height; ++y) {
                     for (x = 0; x < imageData.width; ++x) {
