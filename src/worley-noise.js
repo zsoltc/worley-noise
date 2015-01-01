@@ -10,39 +10,12 @@ WorleyNoise.prototype.addPoint = function (x, y) {
     };
 };
 
-WorleyNoise.prototype.getValue = function (x, y, cfg) {
-    var minDist,
-        dist,
-        minIdx,
-        i,
-        j;
+WorleyNoise.prototype.getEuclidean = function (x, y, k) {
+    return Math.sqrt(this._calculateValue(x, y, k, euclidean));
+};
 
-    cfg = cfg || {};
-    cfg.k = cfg.k || 1;
-    cfg.distFn = cfg.distFn || function (dx, dy) {
-        return dx * dx + dy * dy;
-    };
-
-    for (i = 0; i < this._numPoints; ++i) {
-        this._points[i].selected = false;
-    }
-
-    for (j = 0; j < cfg.k; ++j) {
-        minDist = Number.POSITIVE_INFINITY
-
-        for (i = 0; i < this._numPoints; ++i) {
-            dist = cfg.distFn(x - this._points[i].x, y - this._points[i].y);
-
-            if (dist < minDist && !this._points[i].selected) {
-                minDist = dist;
-                minIdx = i;
-            }
-        }
-
-        this._points[minIdx].selected = true;
-    }
-
-    return minDist;
+WorleyNoise.prototype.getManhattan = function (x, y, k) {
+    return this._calculateValue(x, y, k, manhattan);
 };
 
 WorleyNoise.prototype.getMap = function (resolution, callback) {
@@ -57,21 +30,11 @@ WorleyNoise.prototype.getMap = function (resolution, callback) {
     };
 
     function e(k) {
-        return Math.sqrt(that.getValue(x * step, y * step, {
-            k: k,
-            distFn: function (dx, dy) {
-                return dx * dx + dy * dy;
-            }
-        }));
+        return Math.sqrt(that._calculateValue(x * step, y * step, k, euclidean));
     }
 
     function m(k) {
-        return that.getValue(x * step, y * step, {
-            k: k,
-            distFn: function (dx, dy) {
-                return Math.abs(dx) + Math.abs(dy);
-            }
-        });
+        return that._calculateValue(x * step, y * step, k, manhattan);
     }
 
     for (y = 0; y < resolution; ++y) {
@@ -116,5 +79,42 @@ WorleyNoise.prototype._init = function () {
         });
     }
 };
+
+WorleyNoise.prototype._calculateValue = function (x, y, k, distFn) {
+    var minDist,
+        dist,
+        minIdx,
+        i,
+        j;
+
+    for (i = 0; i < this._numPoints; ++i) {
+        this._points[i].selected = false;
+    }
+
+    for (j = 0; j < k; ++j) {
+        minDist = Number.POSITIVE_INFINITY
+
+        for (i = 0; i < this._numPoints; ++i) {
+            dist = distFn(x - this._points[i].x, y - this._points[i].y);
+
+            if (dist < minDist && !this._points[i].selected) {
+                minDist = dist;
+                minIdx = i;
+            }
+        }
+
+        this._points[minIdx].selected = true;
+    }
+
+    return minDist;
+};
+
+function euclidean(dx, dy) {
+    return dx * dx + dy * dy;
+}
+
+function manhattan(dx, dy) {
+    return Math.abs(dx) + Math.abs(dy);
+}
 
 module.exports = WorleyNoise;
