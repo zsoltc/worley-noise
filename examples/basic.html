@@ -26,9 +26,7 @@
                     x,
                     y;
 
-                map = noise.getNormalizedMap(500, function (e, m) {
-                    return e(2) - e(1);
-                });
+                map = noise.getNormalizedMap(imageData.width);
 
                 for (y = 0; y < imageData.height; ++y) {
                     for (x = 0; x < imageData.width; ++x) {
