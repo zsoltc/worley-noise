@@ -28,7 +28,39 @@ Example usage:
 ```html
 <script src="worley-noise.dev.js"></script>
 <script>
+// Creates a new noise instance with 10 randomly placed points.
+// Coordinates range from (0, 0) to (1, 1).
+var noise = new WorleyNoise(10);
 
+// Manually adds a point to the center.
+noise.addPoint(0.5, 0.5);
+
+// Gets Euclidean noise value at (0.3, 0.4).
+// The third argument (k) defines which point should be chosen when calculating the distance.
+// As k=1 in this case, the closest point is chosen.
+console.log(noise.getEuclidean(0.3, 0.4, 1));
+
+// Gets Manhattan noise value at (0.3, 0.4).
+// As k=2 in this case, the 2nd closest point is chosen.
+console.log(noise.getManhattan(0.3, 0.4, 2));
+
+// Creates an 5x5 array with the computed noise values.
+var width = 5;
+var map = noise.getMap(width);
+
+// Gets value at (3, 2).
+// (3, 2) corresponds to (3 / (5 - 1), 2 / (5 - 1)) -> (0.75, 0.5).
+console.log(map[2 * width + 3]);
+
+// Creates a normalized array where values have been scaled to be between 0 and 1.
+map = noise.getNormalizedMap(width);
+
+// Uses custom function for noise value calculation.
+// It sums the Euclidean distance to the closest point
+// and the Manhattan distance to the second closest point.
+map = noise.getNormalizedMap(width, function (e, m) {
+    return e(1) + m(2);
+});
 </script>
 ```
 Canvas examples can be found in the project.
