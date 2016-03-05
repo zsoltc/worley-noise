@@ -1,0 +1,33 @@
+{
+  "name": "worley-noise",
+  "version": "1.0.0",
+  "description": "Worley noise in JavaScript",
+  "main": "./src/worley-noise.js",
+  "bin": {
+    "worley-noise": "worley-noise.dev.js"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zsoltc/worley-noise.git"
+  },
+  "keywords": [
+    "worley",
+    "noise",
+    "javascript"
+  ],
+  "author": "Zsolt Czinege",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zsoltc/worley-noise/issues"
+  },
+  "homepage": "https://github.com/zsoltc/worley-noise#readme",
+  "devDependencies": {
+    "webpack": "^1.12.14"
+  }
+}
