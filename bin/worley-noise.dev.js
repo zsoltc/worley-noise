@@ -1,124 +1,185 @@
-!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self),o.WorleyNoise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-function WorleyNoise(numPoints) {
-    this._numPoints = numPoints || 0;
-    this._init();
-}
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["WorleyNoise"] = factory();
+	else
+		root["WorleyNoise"] = factory();
+})(this, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-WorleyNoise.prototype.addPoint = function (x, y) {
-    this._points[this._numPoints++] = {
-        x: x,
-        y: y
-    };
-};
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-WorleyNoise.prototype.getEuclidean = function (x, y, k) {
-    return Math.sqrt(this._calculateValue(x, y, k, euclidean));
-};
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-WorleyNoise.prototype.getManhattan = function (x, y, k) {
-    return this._calculateValue(x, y, k, manhattan);
-};
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
 
-WorleyNoise.prototype.getMap = function (resolution, callback) {
-    var step = 1 / (resolution - 1),
-        map = [],
-        that = this,
-        x,
-        y;
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-    callback = callback || function (e, m) {
-        return e(1);
-    };
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
 
-    function e(k) {
-        return Math.sqrt(that._calculateValue(x * step, y * step, k, euclidean));
-    }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
-    function m(k) {
-        return that._calculateValue(x * step, y * step, k, manhattan);
-    }
 
-    for (y = 0; y < resolution; ++y) {
-        for (x = 0; x < resolution; ++x) {
-            map[y * resolution + x] = callback(e, m);
-        }
-    }
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-    return map;
-};
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-WorleyNoise.prototype.getNormalizedMap = function (resolution, callback) {
-    var map = this.getMap(resolution, callback),
-        min = Number.POSITIVE_INFINITY,
-        max = Number.NEGATIVE_INFINITY,
-        scale,
-        i;
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-    for (i = 0; i < map.length; ++i) {
-        min = Math.min(min, map[i]);
-        max = Math.max(max, map[i]);
-    }
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports) {
 
-    scale = 1 / (max - min);
+	function WorleyNoise(numPoints, seed) {
+	    this._numPoints = numPoints || 0;
+	    this._seed = seed || 10000;
+	    this._init();
+	}
 
-    for (i = 0; i < map.length; ++i) {
-        map[i] = (map[i] - min) * scale;
-    }
+	WorleyNoise.prototype.addPoint = function (x, y) {
+	    this._points[this._numPoints++] = {
+	        x: x,
+	        y: y
+	    };
+	};
 
-    return map;
-};
+	WorleyNoise.prototype.getEuclidean = function (x, y, k) {
+	    return Math.sqrt(this._calculateValue(x, y, k, euclidean));
+	};
 
-WorleyNoise.prototype._init = function () {
-    var i;
+	WorleyNoise.prototype.getManhattan = function (x, y, k) {
+	    return this._calculateValue(x, y, k, manhattan);
+	};
 
-    this._points = [];
+	WorleyNoise.prototype.getMap = function (resolution, callback) {
+	    var step = 1 / (resolution - 1),
+	        map = [],
+	        that = this,
+	        x,
+	        y;
 
-    for (i = 0; i < this._numPoints; ++i) {
-        this._points.push({
-            x: Math.random(),
-            y: Math.random()
-        });
-    }
-};
+	    callback = callback || function (e, m) {
+	        return e(1);
+	    };
 
-WorleyNoise.prototype._calculateValue = function (x, y, k, distFn) {
-    var minDist,
-        dist,
-        minIdx,
-        i,
-        j;
+	    function e(k) {
+	        return Math.sqrt(that._calculateValue(x * step, y * step, k, euclidean));
+	    }
 
-    for (i = 0; i < this._numPoints; ++i) {
-        this._points[i].selected = false;
-    }
+	    function m(k) {
+	        return that._calculateValue(x * step, y * step, k, manhattan);
+	    }
 
-    for (j = 0; j < k; ++j) {
-        minDist = Number.POSITIVE_INFINITY
+	    for (y = 0; y < resolution; ++y) {
+	        for (x = 0; x < resolution; ++x) {
+	            map[y * resolution + x] = callback(e, m);
+	        }
+	    }
 
-        for (i = 0; i < this._numPoints; ++i) {
-            dist = distFn(x - this._points[i].x, y - this._points[i].y);
+	    return map;
+	};
 
-            if (dist < minDist && !this._points[i].selected) {
-                minDist = dist;
-                minIdx = i;
-            }
-        }
+	WorleyNoise.prototype.getNormalizedMap = function (resolution, callback) {
+	    var map = this.getMap(resolution, callback),
+	        min = Number.POSITIVE_INFINITY,
+	        max = Number.NEGATIVE_INFINITY,
+	        scale,
+	        i;
 
-        this._points[minIdx].selected = true;
-    }
+	    for (i = 0; i < map.length; ++i) {
+	        min = Math.min(min, map[i]);
+	        max = Math.max(max, map[i]);
+	    }
 
-    return minDist;
-};
+	    scale = 1 / (max - min);
 
-function euclidean(dx, dy) {
-    return dx * dx + dy * dy;
-}
+	    for (i = 0; i < map.length; ++i) {
+	        map[i] = (map[i] - min) * scale;
+	    }
 
-function manhattan(dx, dy) {
-    return Math.abs(dx) + Math.abs(dy);
-}
+	    return map;
+	};
 
-module.exports = WorleyNoise;
+	WorleyNoise.prototype._init = function () {
+	    var i;
 
-},{}]},{},[1])(1)
+	    this._points = [];
+
+	    for (i = 0; i < this._numPoints; ++i) {
+	        var x = Math.sin(i + 1) * this._seed,
+	            y = Math.cos(i + 1) * this._seed;
+	        this._points.push({
+	            x: x - Math.floor(x),
+	            y: y - Math.floor(y)
+	        });
+	    }
+	};
+
+	WorleyNoise.prototype._calculateValue = function (x, y, k, distFn) {
+	    var minDist,
+	        dist,
+	        minIdx,
+	        i,
+	        j;
+
+	    for (i = 0; i < this._numPoints; ++i) {
+	        this._points[i].selected = false;
+	    }
+
+	    for (j = 0; j < k; ++j) {
+	        minDist = Number.POSITIVE_INFINITY
+
+	        for (i = 0; i < this._numPoints; ++i) {
+	            dist = distFn(x - this._points[i].x, y - this._points[i].y);
+
+	            if (dist < minDist && !this._points[i].selected) {
+	                minDist = dist;
+	                minIdx = i;
+	            }
+	        }
+
+	        this._points[minIdx].selected = true;
+	    }
+
+	    return minDist;
+	};
+
+	function euclidean(dx, dy) {
+	    return dx * dx + dy * dy;
+	}
+
+	function manhattan(dx, dy) {
+	    return Math.abs(dx) + Math.abs(dy);
+	}
+
+	module.exports = WorleyNoise;
+
+
+/***/ }
+/******/ ])
 });
+;
