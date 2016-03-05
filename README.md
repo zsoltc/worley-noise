@@ -29,7 +29,7 @@ Example usage:
 <script src="worley-noise.dev.js"></script>
 <script>
 // Creates a new noise instance with 10 randomly placed points.
-// Takes seed as a second argument.
+// Takes seed as a second argument (optional, defaults to 10000).
 // Coordinates range from (0, 0) to (1, 1).
 var noise = new WorleyNoise(10, 1000);
 
