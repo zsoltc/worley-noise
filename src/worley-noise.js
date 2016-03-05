@@ -77,8 +77,8 @@ WorleyNoise.prototype._init = function () {
         var x = Math.sin(i + 1) * this._seed,
             y = Math.cos(i + 1) * this._seed;
         this._points.push({
-            x: Math.random(),
-            y: Math.random()
+            x: x - Math.floor(x),
+            y: y - Math.floor(y)
         });
     }
 };
