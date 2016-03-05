@@ -25,7 +25,7 @@
                     ctx = canvas.getContext('2d'),
                     imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height')),
                     pixels = imageData.data,
-                    noise = new WorleyNoise(50);
+                    noise = new WorleyNoise(50, 1000);
 
                 function draw(map) {
                     var base,
