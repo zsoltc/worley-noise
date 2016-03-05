@@ -1,5 +1,6 @@
-function WorleyNoise(numPoints) {
+function WorleyNoise(numPoints, seed) {
     this._numPoints = numPoints || 0;
+    this._seed = seed || 10000;
     this._init();
 }
 
@@ -73,6 +74,8 @@ WorleyNoise.prototype._init = function () {
     this._points = [];
 
     for (i = 0; i < this._numPoints; ++i) {
+        var x = Math.sin(i + 1) * this._seed,
+            y = Math.cos(i + 1) * this._seed;
         this._points.push({
             x: Math.random(),
             y: Math.random()
