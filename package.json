@@ -22,7 +22,7 @@
     "javascript"
   ],
   "author": "Zsolt Czinege",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zsoltc/worley-noise/issues"
   },
