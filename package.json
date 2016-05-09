@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Worley noise in JavaScript",
   "main": "./src/worley-noise.js",
-  "bin": {
-    "worley-noise": "worley-noise.dev.js"
-  },
   "directories": {
     "example": "examples"
   },
