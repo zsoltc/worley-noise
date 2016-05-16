@@ -2,10 +2,8 @@
   "name": "worley-noise",
   "version": "1.0.0",
   "description": "Worley noise in JavaScript",
-  "main": "./src/worley-noise.js",
-  "bin": {
-    "worley-noise": "worley-noise.dev.js"
-  },
+  "main": "src/worley-noise.js",
+  "files": ["src/*"],
   "directories": {
     "example": "examples"
   },
@@ -22,7 +20,7 @@
     "javascript"
   ],
   "author": "Zsolt Czinege",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zsoltc/worley-noise/issues"
   },
