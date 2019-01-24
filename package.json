@@ -10,8 +10,8 @@
     "example": "examples"
   },
   "scripts": {
-    "dev": "webpack",
-    "build": "webpack --config webpack.config.min.js"
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,10 @@
   },
   "homepage": "https://github.com/zsoltc/worley-noise#readme",
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-add-module-exports": "^1.0.0",
+    "babel-preset-env": "^1.7.0",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   }
