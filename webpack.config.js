@@ -8,5 +8,14 @@ module.exports = {
         filename: 'worley-noise.js',
         library: 'WorleyNoise',
         libraryTarget: 'umd',
+    },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+                loader: 'babel-loader'
+            }
+        }]
     }
 };
