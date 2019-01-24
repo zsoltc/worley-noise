@@ -1,9 +1,12 @@
+const path = require('path');
+
+
 module.exports = {
-    entry: './src/worley-noise.js',
+    entry: './src/index.js',
     output: {
-      libraryTarget: "umd",
-      library: "WorleyNoise",
-      path: './bin',
-      filename: 'worley-noise.dev.js'
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'worley-noise.dev.js',
+        library: 'WorleyNoise',
+        libraryTarget: 'umd',
     }
 };

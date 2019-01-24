@@ -2,8 +2,10 @@
   "name": "worley-noise",
   "version": "1.0.1",
   "description": "Worley noise in JavaScript",
-  "main": "src/worley-noise.js",
-  "files": ["src/*"],
+  "main": "dist/worley-noise.dev.js",
+  "files": [
+    "src/*"
+  ],
   "directories": {
     "example": "examples"
   },
@@ -27,6 +29,7 @@
   },
   "homepage": "https://github.com/zsoltc/worley-noise#readme",
   "devDependencies": {
-    "webpack": "^1.12.14"
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
   }
 }

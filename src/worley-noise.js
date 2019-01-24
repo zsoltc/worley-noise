@@ -120,4 +120,4 @@ function manhattan(dx, dy) {
     return Math.abs(dx) + Math.abs(dy);
 }
 
-module.exports = WorleyNoise;
+export default WorleyNoise;
