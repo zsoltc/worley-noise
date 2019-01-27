@@ -2,6 +2,8 @@
 
 Worley noise in JavaScript.
 
+![](img/noise3D.gif)
+
 ## What is it?
 Worley noise (also called Voronoi or Cell noise) is a type of noise where the value of a point is based on its distance to a set of previously placed points. By using the distance to the closest point it produces images like this:
 
