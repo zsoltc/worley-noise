@@ -28,7 +28,7 @@ Download the [development][max] or the [minified][min] version.
 Example usage:
 
 ```html
-<script src="worley-noise.dev.js"></script>
+<script src="worley-noise.js"></script>
 <script>
 // Creates a new noise instance with 10 randomly placed points.
 // Takes random seed as second argument for reproducibility (optional).
