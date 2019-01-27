@@ -2,17 +2,21 @@ import Alea from 'alea';
 
 
 class WorleyNoise {
-    constructor(numPoints, seed) {
-        this._numPoints = numPoints || 0;
-        this._rng = new Alea(seed !== undefined ? seed : Math.random());
-        this._init();
+    constructor(numPoints, seed=Math.random()) {
+        this._rng = new Alea(seed);
+        this._points = [];
+
+        for (let i = 0; i < numPoints; i++) {
+            this._points.push({
+                x: this._rng(),
+                y: this._rng(),
+                z: this._rng(),
+            });
+        }
     }
 
-    addPoint(x, y) {
-        this._points[this._numPoints++] = {
-            x: x,
-            y: y
-        };
+    addPoint(x, y, z=0) {
+        this._points.push({ x, y, z });
     }
 
     getEuclidean(x, y, k) {
@@ -72,16 +76,6 @@ class WorleyNoise {
         return map;
     }
 
-    _init() {
-        this._points = [];
-        for (let i = 0; i < this._numPoints; ++i) {
-            this._points.push({
-                x: this._rng(),
-                y: this._rng(),
-            });
-        }
-    }
-
     _calculateValue(x, y, k, distFn) {
         var minDist,
             dist,
@@ -89,14 +83,14 @@ class WorleyNoise {
             i,
             j;
 
-        for (i = 0; i < this._numPoints; ++i) {
+        for (i = 0; i < this._points.length; ++i) {
             this._points[i].selected = false;
         }
 
         for (j = 0; j < k; ++j) {
             minDist = Number.POSITIVE_INFINITY
 
-            for (i = 0; i < this._numPoints; ++i) {
+            for (i = 0; i < this._points.length; ++i) {
                 dist = distFn(x - this._points[i].x, y - this._points[i].y);
 
                 if (dist < minDist && !this._points[i].selected) {
