@@ -1,10 +1,10 @@
-import seedrandom from 'seedrandom';
+import Alea from 'alea';
 
 
 class WorleyNoise {
     constructor(numPoints, seed) {
         this._numPoints = numPoints || 0;
-        this._rng = seedrandom(seed !== undefined ? seed : Math.random());
+        this._rng = new Alea(seed !== undefined ? seed : Math.random());
         this._init();
     }
 

@@ -10,31 +10,24 @@
 
         <script src="../dist/worley-noise.js"></script>
         <script>
-            (function () {
-                var canvas = document.getElementById('canvas'),
-                    ctx = canvas.getContext('2d'),
-                    imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height')),
-                    pixels = imageData.data,
-                    noise = new WorleyNoise(50, 0),
-                    map,
-                    base,
-                    x,
-                    y;
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            var imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height'));
+            var pixels = imageData.data;
+            var noise = new WorleyNoise(50, 0);
+            var map = noise.getNormalizedMap(imageData.width);
 
-                map = noise.getNormalizedMap(imageData.width);
-
-                for (y = 0; y < imageData.height; ++y) {
-                    for (x = 0; x < imageData.width; ++x) {
-                        base = (y * imageData.width + x) * 4;
-                        pixels[base] = map[y * imageData.width + x] * 255;
-                        pixels[base + 1] = map[y * imageData.width + x] * 255;
-                        pixels[base + 2] = map[y * imageData.width + x] * 255;
-                        pixels[base + 3] = 255;
-                    }
+            for (var y = 0; y < imageData.height; ++y) {
+                for (var x = 0; x < imageData.width; ++x) {
+                    base = (y * imageData.width + x) * 4;
+                    pixels[base] = map[y * imageData.width + x] * 255;
+                    pixels[base + 1] = map[y * imageData.width + x] * 255;
+                    pixels[base + 2] = map[y * imageData.width + x] * 255;
+                    pixels[base + 3] = 255;
                 }
+            }
 
-                ctx.putImageData(imageData, 0, 0);
-            })();
+            ctx.putImageData(imageData, 0, 0);
         </script>
     </body>
 </html>

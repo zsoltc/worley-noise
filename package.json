@@ -37,6 +37,6 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "seedrandom": "^2.4.4"
+    "alea": "^1.0.0"
   }
 }
