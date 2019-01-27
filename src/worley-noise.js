@@ -2,7 +2,8 @@ import Alea from 'alea';
 
 
 class WorleyNoise {
-    constructor(numPoints, seed=Math.random()) {
+    constructor(numPoints, seed=Math.random(), dim=2) {
+        this._dim = dim;
         this._rng = new Alea(seed);
         this._points = [];
 
@@ -15,7 +16,7 @@ class WorleyNoise {
         }
     }
 
-    addPoint(x, y, z=0) {
+    addPoint(x, y, z=this._rng()) {
         this._points.push({ x, y, z });
     }
 
@@ -28,23 +29,21 @@ class WorleyNoise {
     }
 
     getMap(resolution, callback) {
-        var step = 1 / (resolution - 1),
-            map = [],
-            that = this,
-            x,
-            y;
+        const step = 1 / (resolution - 1);
+        const map = [];
+        let x, y;
 
         callback = callback || function (e, m) {
             return e(1);
         };
 
-        function e(k) {
-            return Math.sqrt(that._calculateValue(x * step, y * step, k, euclidean));
-        }
+        const e = (k) => {
+            return Math.sqrt(this._calculateValue(x * step, y * step, k, euclidean));
+        };
 
-        function m(k) {
-            return that._calculateValue(x * step, y * step, k, manhattan);
-        }
+        const m = (k) => {
+            return this._calculateValue(x * step, y * step, k, manhattan);
+        };
 
         for (y = 0; y < resolution; ++y) {
             for (x = 0; x < resolution; ++x) {
