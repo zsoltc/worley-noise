@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Basic example</title>
+    </head>
+
+    <body>
+        <canvas id="canvas" width="500" height="500" style="background: black"></canvas>
+
+        <script src="../dist/worley-noise.js"></script>
+        <script>
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            var imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height'));
+            var pixels = imageData.data;
+            var noise = new WorleyNoise(50, 0, 3);
+
+            var z = 0;
+            var interval = setInterval(() => {
+                var map = noise.getNormalizedMap(imageData.width, z);
+
+                for (var y = 0; y < imageData.height; ++y) {
+                    for (var x = 0; x < imageData.width; ++x) {
+                        base = (y * imageData.width + x) * 4;
+                        pixels[base] = map[y * imageData.width + x] * 255;
+                        pixels[base + 1] = map[y * imageData.width + x] * 255;
+                        pixels[base + 2] = map[y * imageData.width + x] * 255;
+                        pixels[base + 3] = 255;
+                    }
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+
+                z += 0.01;
+                if (z > 1) {
+                    clearInterval(interval);
+                }
+            }, 100);
+        </script>
+    </body>
+</html>

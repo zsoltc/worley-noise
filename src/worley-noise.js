@@ -28,17 +28,16 @@ class WorleyNoise {
         return this._calculateValue(x, y, k, manhattan);
     }
 
-    getMap(resolution, callback) {
+    getMap(resolution, z, callback) {
         const step = 1 / (resolution - 1);
         const map = [];
         let x, y;
+        const e = (k) => Math.sqrt(this._calculateValue(x * step, y * step, z, k, euclidean));
+        const m = (k) => this._calculateValue(x * step, y * step, z, k, manhattan);
 
         callback = callback || function (e, m) {
             return e(1);
         };
-
-        const e = (k) => Math.sqrt(this._calculateValue(x * step, y * step, k, euclidean));
-        const m = (k) => this._calculateValue(x * step, y * step, k, manhattan);
 
         for (y = 0; y < resolution; ++y) {
             for (x = 0; x < resolution; ++x) {
@@ -49,8 +48,8 @@ class WorleyNoise {
         return map;
     }
 
-    getNormalizedMap(resolution, callback) {
-        const map = this.getMap(resolution, callback);
+    getNormalizedMap(resolution, z=0, callback=null) {
+        const map = this.getMap(resolution, z, callback);
         let min = Number.POSITIVE_INFINITY;
         let max = Number.NEGATIVE_INFINITY;
 
@@ -63,7 +62,7 @@ class WorleyNoise {
         return map.map(v => (v - min) * scale);
     }
 
-    _calculateValue(x, y, k, distFn) {
+    _calculateValue(x, y, z, k, distFn) {
         let minDist;
 
         this._points.forEach(p => {
@@ -76,7 +75,7 @@ class WorleyNoise {
 
             for (let i = 0; i < this._points.length; ++i) {
                 const p = this._points[i];
-                const dist = distFn(x - p.x, y - p.y);
+                const dist = distFn(x - p.x, y - p.y, z - p.z);
 
                 if (dist < minDist && !p.selected) {
                     minDist = dist;
@@ -91,7 +90,7 @@ class WorleyNoise {
     }
 }
 
-const euclidean = (dx, dy) => dx * dx + dy * dy;
-const manhattan = (dx, dy) => Math.abs(dx) + Math.abs(dy);
+const euclidean = (dx, dy, dz) => dx * dx + dy * dy + dz * dz;
+const manhattan = (dx, dy, dz) => Math.abs(dx) + Math.abs(dy) + Math.abs(dz);
 
 export default WorleyNoise;
