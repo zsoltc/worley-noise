@@ -55,24 +55,17 @@ class WorleyNoise {
     }
 
     getNormalizedMap(resolution, callback) {
-        var map = this.getMap(resolution, callback),
-            min = Number.POSITIVE_INFINITY,
-            max = Number.NEGATIVE_INFINITY,
-            scale,
-            i;
+        const map = this.getMap(resolution, callback);
+        let min = Number.POSITIVE_INFINITY;
+        let max = Number.NEGATIVE_INFINITY;
 
-        for (i = 0; i < map.length; ++i) {
-            min = Math.min(min, map[i]);
-            max = Math.max(max, map[i]);
-        }
+        map.forEach(v => {
+            min = Math.min(min, v);
+            max = Math.max(max, v);
+        });
 
-        scale = 1 / (max - min);
-
-        for (i = 0; i < map.length; ++i) {
-            map[i] = (map[i] - min) * scale;
-        }
-
-        return map;
+        let scale = 1 / (max - min);
+        return map.map(v => (v - min) * scale);
     }
 
     _calculateValue(x, y, k, distFn) {
