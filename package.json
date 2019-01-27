@@ -2,7 +2,7 @@
   "name": "worley-noise",
   "version": "1.0.1",
   "description": "Worley noise in JavaScript",
-  "main": "dist/worley-noise.dev.js",
+  "main": "dist/worley-noise.js",
   "files": [
     "src/*"
   ],
