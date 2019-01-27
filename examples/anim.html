@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Basic example</title>
+        <title>Animation example</title>
     </head>
 
     <body>
@@ -14,11 +14,13 @@
             var ctx = canvas.getContext('2d');
             var imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height'));
             var pixels = imageData.data;
-            var noise = new WorleyNoise(50, 0, 3);
+            var noise = new WorleyNoise(200, 0, 3);
 
             var z = 0;
             var interval = setInterval(() => {
-                var map = noise.getNormalizedMap(imageData.width, z);
+                var map = noise.getNormalizedMap(imageData.width, z, function (e, m) {
+                    return e(2) - e(1);
+                });
 
                 for (var y = 0; y < imageData.height; ++y) {
                     for (var x = 0; x < imageData.width; ++x) {

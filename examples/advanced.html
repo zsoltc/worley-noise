@@ -37,7 +37,7 @@
             }
 
             document.getElementById('e1').addEventListener('click', function () {
-                var map = noise.getNormalizedMap(imageData.width, function (e, m) {
+                var map = noise.getNormalizedMap(imageData.width, 0, function (e, m) {
                     return e(2);
                 });
 
@@ -45,7 +45,7 @@
             });
 
             document.getElementById('e2').addEventListener('click', function () {
-                var map = noise.getNormalizedMap(imageData.width, function (e, m) {
+                var map = noise.getNormalizedMap(imageData.width, 0, function (e, m) {
                     return e(2) - e(1);
                 });
 
@@ -53,7 +53,7 @@
             });
 
             document.getElementById('m1').addEventListener('click', function () {
-                var map = noise.getNormalizedMap(imageData.width, function (e, m) {
+                var map = noise.getNormalizedMap(imageData.width, 0, function (e, m) {
                     return m(1);
                 });
 
@@ -61,7 +61,7 @@
             });
 
             document.getElementById('m2').addEventListener('click', function () {
-                var map = noise.getNormalizedMap(imageData.width, function (e, m) {
+                var map = noise.getNormalizedMap(imageData.width, 0, function (e, m) {
                     return m(1) / m(2);
                 });
 

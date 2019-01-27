@@ -21,11 +21,11 @@ class WorleyNoise {
     }
 
     getEuclidean(x, y, k) {
-        return Math.sqrt(this._calculateValue(x, y, k, euclidean));
+        return Math.sqrt(this._calculateValue(x, y, 0, k, euclidean));
     }
 
     getManhattan(x, y, k) {
-        return this._calculateValue(x, y, k, manhattan);
+        return this._calculateValue(x, y, 0, k, manhattan);
     }
 
     getMap(resolution, z, callback) {
