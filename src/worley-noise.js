@@ -1,7 +1,10 @@
+import seedrandom from 'seedrandom';
+
+
 class WorleyNoise {
     constructor(numPoints, seed) {
         this._numPoints = numPoints || 0;
-        this._seed = seed || 0;
+        this._rng = seedrandom(seed !== undefined ? seed : Math.random());
         this._init();
     }
 
@@ -70,16 +73,11 @@ class WorleyNoise {
     }
 
     _init() {
-        var i;
-
         this._points = [];
-
-        for (i = 0; i < this._numPoints; ++i) {
-            var x = Math.sin(i + 1) * this._seed,
-                y = Math.cos(i + 1) * this._seed;
+        for (let i = 0; i < this._numPoints; ++i) {
             this._points.push({
-                x: x - Math.floor(x),
-                y: y - Math.floor(y)
+                x: this._rng(),
+                y: this._rng(),
             });
         }
     }
