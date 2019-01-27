@@ -11,12 +11,12 @@ class WorleyNoise {
             this._points.push({
                 x: this._rng(),
                 y: this._rng(),
-                z: this._rng(),
+                z: dim === 3 ? this._rng() : 0,
             });
         }
     }
 
-    addPoint(x, y, z=this._rng()) {
+    addPoint(x, y, z=0) {
         this._points.push({ x, y, z });
     }
 
@@ -37,13 +37,8 @@ class WorleyNoise {
             return e(1);
         };
 
-        const e = (k) => {
-            return Math.sqrt(this._calculateValue(x * step, y * step, k, euclidean));
-        };
-
-        const m = (k) => {
-            return this._calculateValue(x * step, y * step, k, manhattan);
-        };
+        const e = (k) => Math.sqrt(this._calculateValue(x * step, y * step, k, euclidean));
+        const m = (k) => this._calculateValue(x * step, y * step, k, manhattan);
 
         for (y = 0; y < resolution; ++y) {
             for (x = 0; x < resolution; ++x) {
@@ -69,23 +64,21 @@ class WorleyNoise {
     }
 
     _calculateValue(x, y, k, distFn) {
-        var minDist,
-            dist,
-            minIdx,
-            i,
-            j;
+        let minDist;
 
-        for (i = 0; i < this._points.length; ++i) {
-            this._points[i].selected = false;
-        }
+        this._points.forEach(p => {
+            p.selected = false;
+        });
 
-        for (j = 0; j < k; ++j) {
-            minDist = Number.POSITIVE_INFINITY
+        for (let j = 0; j < k; ++j) {
+            let minIdx;
+            minDist = Number.POSITIVE_INFINITY;
 
-            for (i = 0; i < this._points.length; ++i) {
-                dist = distFn(x - this._points[i].x, y - this._points[i].y);
+            for (let i = 0; i < this._points.length; ++i) {
+                const p = this._points[i];
+                const dist = distFn(x - p.x, y - p.y);
 
-                if (dist < minDist && !this._points[i].selected) {
+                if (dist < minDist && !p.selected) {
                     minDist = dist;
                     minIdx = i;
                 }
@@ -98,12 +91,7 @@ class WorleyNoise {
     }
 }
 
-function euclidean(dx, dy) {
-    return dx * dx + dy * dy;
-}
-
-function manhattan(dx, dy) {
-    return Math.abs(dx) + Math.abs(dy);
-}
+const euclidean = (dx, dy) => dx * dx + dy * dy;
+const manhattan = (dx, dy) => Math.abs(dx) + Math.abs(dy);
 
 export default WorleyNoise;
