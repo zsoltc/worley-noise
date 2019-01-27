@@ -1,4 +1,4 @@
-import WorleyNoise from './worley-noise'
+import WorleyNoise from './worley-noise';
 
 
-export default WorleyNoise;
+module.exports = WorleyNoise;
