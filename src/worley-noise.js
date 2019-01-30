@@ -2,42 +2,55 @@ import Alea from 'alea';
 
 
 class WorleyNoise {
-    constructor(numPoints, seed=Math.random(), dim=2) {
-        this._dim = dim;
-        this._rng = new Alea(seed);
+    constructor(config) {
+        config = config || {};
+        if (config.dim !== 2 && config.dim !== 3 && config.dim !== undefined) {
+            throw '"dim" can be 2 or 3';
+        }
+
+        this._dim = config.dim || 2;
+        this._rng = new Alea(config.seed || Math.random());
         this._points = [];
 
-        for (let i = 0; i < numPoints; i++) {
+        for (let i = 0; i < config.numPoints; i++) {
             this._points.push({
                 x: this._rng(),
                 y: this._rng(),
-                z: dim === 3 ? this._rng() : 0,
+                z: this._rng(),
             });
         }
     }
 
-    addPoint(x, y, z=0) {
-        this._points.push({ x, y, z });
+    addPoint(coord) {
+        this._points.push(coord);
     }
 
-    getEuclidean(x, y, k) {
-        return Math.sqrt(this._calculateValue(x, y, 0, k, euclidean));
+    getEuclidean(coord, k) {
+        return Math.sqrt(this._calculateValue(coord, k, euclidean));
     }
 
-    getManhattan(x, y, k) {
-        return this._calculateValue(x, y, 0, k, manhattan);
+    getManhattan(coord, k) {
+        return this._calculateValue(coord, k, manhattan);
     }
 
-    getMap(resolution, z, callback) {
+    getMap(resolution, config) {
+        config = config || {};
         const step = 1 / (resolution - 1);
         const map = [];
+        const callback = config.callback || ((e, m) => e(1));
         let x, y;
-        const e = (k) => Math.sqrt(this._calculateValue(x * step, y * step, z, k, euclidean));
-        const m = (k) => this._calculateValue(x * step, y * step, z, k, manhattan);
 
-        callback = callback || function (e, m) {
-            return e(1);
-        };
+        const e = k => Math.sqrt(this._calculateValue({
+            x: x * step,
+            y: y * step,
+            z: config.z,
+        }, k, euclidean));
+
+        const m = k => this._calculateValue({
+            x: x * step,
+            y: y * step,
+            z: config.z,
+        }, k, manhattan);
 
         for (y = 0; y < resolution; ++y) {
             for (x = 0; x < resolution; ++x) {
@@ -45,11 +58,9 @@ class WorleyNoise {
             }
         }
 
-        return map;
-    }
+        if (!config.normalize)
+            return map;
 
-    getNormalizedMap(resolution, z=0, callback=null) {
-        const map = this.getMap(resolution, z, callback);
         let min = Number.POSITIVE_INFINITY;
         let max = Number.NEGATIVE_INFINITY;
 
@@ -62,12 +73,9 @@ class WorleyNoise {
         return map.map(v => (v - min) * scale);
     }
 
-    _calculateValue(x, y, z, k, distFn) {
+    _calculateValue(coord, k, distFn) {
         let minDist;
-
-        this._points.forEach(p => {
-            p.selected = false;
-        });
+        this._points.forEach(p => { p.selected = false; });
 
         for (let j = 0; j < k; ++j) {
             let minIdx;
@@ -75,7 +83,8 @@ class WorleyNoise {
 
             for (let i = 0; i < this._points.length; ++i) {
                 const p = this._points[i];
-                const dist = distFn(x - p.x, y - p.y, z - p.z);
+                const dz = this._dim === 2 ? 0 : coord.z - p.z;
+                const dist = distFn(coord.x - p.x, coord.y - p.y, dz);
 
                 if (dist < minDist && !p.selected) {
                     minDist = dist;
