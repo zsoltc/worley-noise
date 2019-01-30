@@ -22,7 +22,7 @@ The formula for generating these images can be found in the advanced example.
 ## Getting started
 Download [worley-noise.js][max].
 
-[max]: https://raw.githubusercontent.com/zsoltc/worley-noise/dev/bin/worley-noise.js
+[max]: https://raw.githubusercontent.com/zsoltc/worley-noise/dev/dist/worley-noise.js
 
 Example usage:
 
