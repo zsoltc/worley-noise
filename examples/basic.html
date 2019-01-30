@@ -15,14 +15,14 @@
             var imageData = ctx.getImageData(0, 0, canvas.getAttribute('width'), canvas.getAttribute('height'));
             var pixels = imageData.data;
             var noise = new WorleyNoise({ numPoints: 50 });
-            var map = noise.getMap(imageData.width, { normalize: true });
+            var img = noise.renderImage(imageData.width, { normalize: true });
 
             for (var y = 0; y < imageData.height; ++y) {
                 for (var x = 0; x < imageData.width; ++x) {
                     base = (y * imageData.width + x) * 4;
-                    pixels[base] = map[y * imageData.width + x] * 255;
-                    pixels[base + 1] = map[y * imageData.width + x] * 255;
-                    pixels[base + 2] = map[y * imageData.width + x] * 255;
+                    pixels[base] = img[y * imageData.width + x] * 255;
+                    pixels[base + 1] = img[y * imageData.width + x] * 255;
+                    pixels[base + 2] = img[y * imageData.width + x] * 255;
                     pixels[base + 3] = 255;
                 }
             }

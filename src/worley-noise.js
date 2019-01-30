@@ -4,9 +4,8 @@ import Alea from 'alea';
 class WorleyNoise {
     constructor(config) {
         config = config || {};
-        if (config.dim !== 2 && config.dim !== 3 && config.dim !== undefined) {
+        if (config.dim !== 2 && config.dim !== 3 && config.dim !== undefined)
             throw '"dim" can be 2 or 3';
-        }
 
         this._dim = config.dim || 2;
         this._rng = new Alea(config.seed || Math.random());
@@ -33,10 +32,10 @@ class WorleyNoise {
         return this._calculateValue(coord, k, manhattan);
     }
 
-    getMap(resolution, config) {
+    renderImage(resolution, config) {
         config = config || {};
         const step = 1 / (resolution - 1);
-        const map = [];
+        const img = [];
         const callback = config.callback || ((e, m) => e(1));
         let x, y;
 
@@ -54,23 +53,23 @@ class WorleyNoise {
 
         for (y = 0; y < resolution; ++y) {
             for (x = 0; x < resolution; ++x) {
-                map[y * resolution + x] = callback(e, m);
+                img[y * resolution + x] = callback(e, m);
             }
         }
 
         if (!config.normalize)
-            return map;
+            return img;
 
         let min = Number.POSITIVE_INFINITY;
         let max = Number.NEGATIVE_INFINITY;
 
-        map.forEach(v => {
+        img.forEach(v => {
             min = Math.min(min, v);
             max = Math.max(max, v);
         });
 
         let scale = 1 / (max - min);
-        return map.map(v => (v - min) * scale);
+        return img.map(v => (v - min) * scale);
     }
 
     _calculateValue(coord, k, distFn) {
