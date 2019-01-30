@@ -42,13 +42,13 @@ class WorleyNoise {
         const e = k => Math.sqrt(this._calculateValue({
             x: x * step,
             y: y * step,
-            z: config.z,
+            z: config.z || 0,
         }, k, euclidean));
 
         const m = k => this._calculateValue({
             x: x * step,
             y: y * step,
-            z: config.z,
+            z: config.z || 0,
         }, k, manhattan);
 
         for (y = 0; y < resolution; ++y) {
