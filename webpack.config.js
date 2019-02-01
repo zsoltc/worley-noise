@@ -8,6 +8,7 @@ module.exports = {
         filename: 'worley-noise.js',
         library: 'WorleyNoise',
         libraryTarget: 'umd',
+        globalObject: 'typeof self !== "undefined" ? self : this',
     },
     module: {
         rules: [{
