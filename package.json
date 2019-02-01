@@ -1,6 +1,6 @@
 {
   "name": "worley-noise",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Worley noise in JavaScript",
   "main": "dist/worley-noise.js",
   "files": [
