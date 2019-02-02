@@ -10,7 +10,7 @@ class KDTree {
             const midIdx = parseInt(pts.length / 2);
             const prop = 'xyz'[depth % this._dim];
 
-            pts.sort((p1, p2) => p1[prop] < p2[prop]);
+            pts.sort((p1, p2) => p1[prop] - p2[prop]);
             node.value = pts[midIdx];
 
             node.left = midIdx === 0 ? null :
@@ -28,7 +28,7 @@ class KDTree {
     }
 }
 
-const pts = new Array(1000000);
+const pts = new Array(1000);
 for (let i = 0; i < pts.length; i++) {
     pts[i] = { x: Math.random(), y: Math.random() };
 }
