@@ -1,4 +1,5 @@
 import Alea from 'alea';
+import KDTree from './kd-tree';
 
 
 class WorleyNoise {
@@ -100,5 +101,6 @@ class WorleyNoise {
 
 const euclidean = (dx, dy, dz) => dx * dx + dy * dy + dz * dz;
 const manhattan = (dx, dy, dz) => Math.abs(dx) + Math.abs(dy) + Math.abs(dz);
+
 
 export default WorleyNoise;
